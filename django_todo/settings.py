@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import dj_database_url
+if os.path.exists("env.py"):
+    import env
 
 if os.environ.get('DEVELOPMENT'):
     development = True
@@ -23,10 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_yk&8kye&@k5$o$0-ryszu@m)@@c$_bpwwozh)&bnle16dt*bo'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
 DEBUG = development
 
 ALLOWED_HOSTS = [os.environ.get('C9_HOSTNAME'),
@@ -85,7 +86,7 @@ if development:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-       }
+        }
     }
 else:
     DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
